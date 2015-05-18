@@ -49,7 +49,7 @@ public class AdminController extends HttpServlet {
 			request.setAttribute("user", user);
 			request.setAttribute("listOfUser", listOfUser);
 			RequestDispatcher dispatcher = request
-					.getRequestDispatcher("/admin.jsp");
+					.getRequestDispatcher("/users.jsp");
 			dispatcher.forward(request, response);
 			listOfUser.clear();
 			return;

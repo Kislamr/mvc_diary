@@ -12,12 +12,12 @@ import com.kislamr.webapps.model.Entry;
 import com.kislamr.webapps.util.DBConnectionUtil;
 
 public class EntryDaoImpl implements EntryDao {
-	
-	
+
 	public EntryDaoImpl() {
 	}
+
 	ArrayList<Entry> listOfEntry = new ArrayList<Entry>();
-	
+
 	Connection db = DBConnectionUtil.connect();
 	Statement st = null;
 	ResultSet rs = null;
@@ -26,17 +26,17 @@ public class EntryDaoImpl implements EntryDao {
 	@Override
 	public Entry getEntryById(long id) {
 		try {
-			ps = db.prepareStatement("select * from entry where id = ?");    
-			ps.setLong(1, id);    
+			ps = db.prepareStatement("select * from entry where id = ?");
+			ps.setLong(1, id);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-			Entry fEntry = new Entry();
-			fEntry.setId(rs.getLong(1));
-			fEntry.setTitle(rs.getString(2));
-			fEntry.setText(rs.getString(3));
-			fEntry.setDate(rs.getDate(3));
-			return fEntry;
+				Entry fEntry = new Entry();
+				fEntry.setId(rs.getLong(1));
+				fEntry.setTitle(rs.getString(2));
+				fEntry.setText(rs.getString(3));
+				fEntry.setDate(rs.getDate(3));
+				return fEntry;
 			} else {
 				return null;
 			}
@@ -46,22 +46,22 @@ public class EntryDaoImpl implements EntryDao {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ArrayList<Entry> getListOfEntry() {
 		try {
-		st = db.createStatement();
-		ps = db.prepareStatement("SELECT * FROM entry");
-		rs = ps.executeQuery();
-		
-		while (rs.next()) {
-			Entry fEntry = new Entry();
-			fEntry.setId(rs.getLong(1));
-			fEntry.setTitle(rs.getString(2));
-			fEntry.setText(rs.getString(3));
-			fEntry.setDate(rs.getDate(4));
-			listOfEntry.add(fEntry);
-		}
+			st = db.createStatement();
+			ps = db.prepareStatement("SELECT * FROM entry");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Entry fEntry = new Entry();
+				fEntry.setId(rs.getLong(1));
+				fEntry.setTitle(rs.getString(2));
+				fEntry.setText(rs.getString(3));
+				fEntry.setDate(rs.getDate(4));
+				listOfEntry.add(fEntry);
+			}
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
@@ -72,23 +72,25 @@ public class EntryDaoImpl implements EntryDao {
 	}
 
 	@Override
-	public void addEntry(long id, String title, String text, Date date) {
+	public void addEntry(String title, String text, Date date) {
 		try {
-			ps = db.prepareStatement("INSERT INTO entry (id, title, text, date) VALUES (?, ?, ?, ?)");    
-			ps.setLong(1,id);
-			ps.setString(2, title);
-			ps.setString(3, text);
-			ps.setDate(4, (java.sql.Date) date);
+			System.out.println("Inserting new row");
+			ps = db.prepareStatement("INSERT INTO entry (title, text, date) VALUES (?, ?, ?)");
+			ps.setString(1, title);
+			ps.setString(2, text);
+			// conversion for programdate to sqldate
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			ps.setDate(3, sqlDate);
 			rs = ps.executeQuery();
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
-	}	
-	
+	}
+
 	@Override
 	public void removeEntry(long id) {
 		try {
-			ps = db.prepareStatement("DELETE FROM entry WHERE id = ?");    
+			ps = db.prepareStatement("DELETE FROM entry WHERE id = ?");
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
 		} catch (SQLException ex) {
@@ -96,5 +98,4 @@ public class EntryDaoImpl implements EntryDao {
 		}
 	}
 
-	
 }

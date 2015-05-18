@@ -10,35 +10,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%@include file="include/header.jsp" %>
 
-<title>Users panel</title>
+<title>Admin panel</title>
 </head>
-<body>
-<%-- Using JSTL forEach --%>
-<form action="users" method="get">
-<table>
-<tbody>
-<tr><th>userid</th><th>username</th><th>password</th></tr>
-<c:forEach items="${listOfUser}" var="user">
-<tr>
-<td><c:out value="${user.userId}"></c:out></td>
-<td><c:out value="${user.userName}"></c:out></td>
-<td><c:out value="*******"></c:out></td>
-<td>
-	 <button type="submit" name="remove" value="<c:out value="${user.userId}"></c:out>">X</button>
-</td>
-</tr>
-</c:forEach>
-</form>
-
-<form action="users" method="post">
-<tr>
-<td><input type="text" value="" name="userId" placeholder="<c:out value='${error}'></c:out>" First name"></td>
-<td><input type="text" value="" name="userName"></td>
-<td><input type="text" value="" name="userPassword"></td>
-<td><input type="submit" name="add" value="+"></td>
-</tr>
-</form>
-</tbody>
-</table>
+		<div class="btn-group btn-group-justified" role="group" aria-label="selection">
+		  <div class="btn-group" role="group">
+	   <a href="entries">
+	    <button type="button" class="btn btn-default">entries</button>
+	   </a>
+	  </div>
+	  <div class="btn-group" role="group">
+	  <a href="users">
+	    <button type="button" class="btn btn-default">users</button>
+	  </a>
+	  </div>
+	</div>
 </body>
 </html>
